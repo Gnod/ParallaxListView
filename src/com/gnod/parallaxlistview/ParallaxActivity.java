@@ -2,6 +2,7 @@ package com.gnod.parallaxlistview;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -45,7 +46,10 @@ public class ParallaxActivity extends Activity {
 	@Override
 	public void onWindowFocusChanged(boolean hasFocus) {
 		super.onWindowFocusChanged(hasFocus);
-		mListView.setViewsBounds(ParallaxScollListView.ZOOM_X2);
+
+		if(hasFocus) {
+			mListView.setViewsBounds(ParallaxScollListView.ZOOM_X2);
+		}
 	}
 	
 }

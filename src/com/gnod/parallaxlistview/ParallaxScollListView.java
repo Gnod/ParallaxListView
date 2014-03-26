@@ -2,6 +2,7 @@ package com.gnod.parallaxlistview;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
@@ -13,11 +14,13 @@ import android.widget.ListView;
 
 public class ParallaxScollListView extends ListView implements OnScrollListener {
 
-	ImageView mImageView;
-	int mDrawableMaxHeight = -1;
-	int mImageViewHeight = -1;
 	public final static double NO_ZOOM = 1;
 	public final static double ZOOM_X2 = 2;
+	
+	private ImageView mImageView;
+	private int mDrawableMaxHeight = -1;
+	private int mImageViewHeight = -1;
+	private int mDefaultImageViewHeight = 0;
 
 	private interface OnOverScrollByListener {
 		public boolean overScrollBy(int deltaX, int deltaY, int scrollX,
@@ -32,14 +35,21 @@ public class ParallaxScollListView extends ListView implements OnScrollListener 
 	public ParallaxScollListView(Context context, AttributeSet attrs,
 			int defStyle) {
 		super(context, attrs, defStyle);
+		init(context);
 	}
 
 	public ParallaxScollListView(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		init(context);
 	}
 
 	public ParallaxScollListView(Context context) {
 		super(context);
+		init(context);
+	}
+	
+	public void init(Context context) {
+		mDefaultImageViewHeight = getResources().getInteger(R.dimen.size_default_height);
 	}
 
 	@Override
@@ -81,6 +91,9 @@ public class ParallaxScollListView extends ListView implements OnScrollListener 
 	public void setViewsBounds(double zoomRatio) {
 		if (mImageViewHeight == -1) {
 			mImageViewHeight = mImageView.getHeight();
+			if(mImageViewHeight <= 0) {
+				mImageViewHeight = mDefaultImageViewHeight;
+			}
 			double ratio = ((double) mImageView.getDrawable()
 					.getIntrinsicWidth()) / ((double) mImageView.getWidth());
 
@@ -156,12 +169,5 @@ public class ParallaxScollListView extends ListView implements OnScrollListener 
 			mView.getLayoutParams().height = newHeight;
 			mView.requestLayout();
 		}
-
-		@Override
-		public void initialize(int width, int height, int parentWidth,
-				int parentHeight) {
-			super.initialize(width, height, parentWidth, parentHeight);
-		}
-
 	}
 }

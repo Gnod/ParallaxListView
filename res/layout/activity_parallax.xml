@@ -9,9 +9,9 @@
         android:cacheColorHint="@null"
         android:duplicateParentState="true"
         android:scrollingCache="false"
-        android:divider="@null"
         android:headerDividersEnabled="false"
         android:footerDividersEnabled="false"
         android:overScrollMode="never"
+        android:scrollbars="none"
 	    />
 </RelativeLayout>

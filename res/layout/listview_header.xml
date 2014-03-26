@@ -5,8 +5,8 @@
 	<ImageView 
 	    android:id="@+id/layout_header_image"
 	    android:layout_width="match_parent"
-	    android:layout_height="150dp"
+	    android:layout_height="@dimen/size_default_height"
 	    android:scaleType="centerCrop"
-	    android:src="@drawable/image1"
+	    android:src="@drawable/img_header"
 	    />
 </RelativeLayout>
