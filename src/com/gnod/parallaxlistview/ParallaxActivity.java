@@ -51,5 +51,5 @@ public class ParallaxActivity extends Activity {
 			mListView.setViewsBounds(ParallaxScollListView.ZOOM_X2);
 		}
 	}
-	
+
 }

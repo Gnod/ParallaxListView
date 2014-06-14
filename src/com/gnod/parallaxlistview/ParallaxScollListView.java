@@ -49,7 +49,7 @@ public class ParallaxScollListView extends ListView implements OnScrollListener 
 	}
 	
 	public void init(Context context) {
-		mDefaultImageViewHeight = getResources().getInteger(R.dimen.size_default_height);
+		mDefaultImageViewHeight = context.getResources().getDimensionPixelOffset(R.dimen.size_default_height);
 	}
 
 	@Override
