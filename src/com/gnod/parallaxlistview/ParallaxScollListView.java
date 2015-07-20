@@ -10,6 +10,7 @@ import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class ParallaxScollListView extends ListView implements OnScrollListener {
 
@@ -20,6 +21,7 @@ public class ParallaxScollListView extends ListView implements OnScrollListener 
     private int mDrawableMaxHeight = -1;
     private int mImageViewHeight = -1;
     private int mDefaultImageViewHeight = 0;
+	private double mZoomRatio;
 
     private interface OnOverScrollByListener {
         public boolean overScrollBy(int deltaX, int deltaY, int scrollX,
@@ -52,6 +54,12 @@ public class ParallaxScollListView extends ListView implements OnScrollListener 
     }
 
     @Override
+	protected void onLayout(boolean changed, int l, int t, int r, int b) {
+		super.onLayout(changed, l, t, r, b);
+		initViewsBounds(mZoomRatio);
+	}
+
+	@Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {
     }
 
@@ -102,7 +110,7 @@ public class ParallaxScollListView extends ListView implements OnScrollListener 
         mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
     }
 
-    public void setViewsBounds(double zoomRatio) {
+    private void initViewsBounds(double zoomRatio) {
         if (mImageViewHeight == -1) {
             mImageViewHeight = mImageView.getHeight();
             if (mImageViewHeight <= 0) {
@@ -113,6 +121,10 @@ public class ParallaxScollListView extends ListView implements OnScrollListener 
             mDrawableMaxHeight = (int) ((mImageView.getDrawable().getIntrinsicHeight() / ratio) * (zoomRatio > 1 ?
                     zoomRatio : 1));
         }
+    }
+    
+    public void setZoomRatio(double zoomRatio) {
+    	mZoomRatio = zoomRatio;
     }
 
     private OnOverScrollByListener scrollByListener = new OnOverScrollByListener() {

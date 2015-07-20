@@ -22,6 +22,7 @@ public class ParallaxActivity extends Activity {
         View header = LayoutInflater.from(this).inflate(R.layout.listview_header, null);
         mImageView = (ImageView) header.findViewById(R.id.layout_header_image);
 
+        mListView.setZoomRatio(ParallaxScollListView.ZOOM_X2);
         mListView.setParallaxImageView(mImageView);
         mListView.addHeaderView(header);
 
@@ -42,20 +43,4 @@ public class ParallaxActivity extends Activity {
         );
         mListView.setAdapter(adapter);
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.parallax, menu);
-        return true;
-    }
-
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-
-        if (hasFocus) {
-            mListView.setViewsBounds(ParallaxScollListView.ZOOM_X2);
-        }
-    }
-
 }
