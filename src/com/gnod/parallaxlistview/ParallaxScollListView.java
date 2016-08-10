@@ -87,15 +87,17 @@ public class ParallaxScollListView extends ListView implements OnScrollListener 
     @Override
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
         super.onScrollChanged(l, t, oldl, oldt);
-        View firstView = (View) mImageView.getParent();
-        // firstView.getTop < getPaddingTop means mImageView will be covered by top padding,
-        // so we can layout it to make it shorter
-        if (firstView.getTop() < getPaddingTop() && mImageView.getHeight() > mImageViewHeight) {
-            mImageView.getLayoutParams().height = Math.max(mImageView.getHeight() - (getPaddingTop() - firstView.getTop()), mImageViewHeight);
-            // to set the firstView.mTop to 0,
-            // maybe use View.setTop() is more easy, but it just support from Android 3.0 (API 11)
-            firstView.layout(firstView.getLeft(), 0, firstView.getRight(), firstView.getHeight());
-            mImageView.requestLayout();
+        if (mImageView != null) {
+            View firstView = (View) mImageView.getParent();
+            // firstView.getTop < getPaddingTop means mImageView will be covered by top padding,
+            // so we can layout it to make it shorter
+            if (firstView.getTop() < getPaddingTop() && mImageView.getHeight() > mImageViewHeight) {
+                mImageView.getLayoutParams().height = Math.max(mImageView.getHeight() - (getPaddingTop() - firstView.getTop()), mImageViewHeight);
+                // to set the firstView.mTop to 0,
+                // maybe use View.setTop() is more easy, but it just support from Android 3.0 (API 11)
+                firstView.layout(firstView.getLeft(), 0, firstView.getRight(), firstView.getHeight());
+                mImageView.requestLayout();
+            }
         }
     }
 
@@ -111,7 +113,7 @@ public class ParallaxScollListView extends ListView implements OnScrollListener 
     }
 
     private void initViewsBounds(double zoomRatio) {
-        if (mImageViewHeight == -1) {
+        if (mImageViewHeight == -1 && mImageView != null) {
             mImageViewHeight = mImageView.getHeight();
             if (mImageViewHeight <= 0) {
                 mImageViewHeight = mDefaultImageViewHeight;
@@ -132,7 +134,7 @@ public class ParallaxScollListView extends ListView implements OnScrollListener 
         public boolean overScrollBy(int deltaX, int deltaY, int scrollX,
                                     int scrollY, int scrollRangeX, int scrollRangeY,
                                     int maxOverScrollX, int maxOverScrollY, boolean isTouchEvent) {
-            if (mImageView.getHeight() <= mDrawableMaxHeight && isTouchEvent) {
+            if (mImageView != null && mImageView.getHeight() <= mDrawableMaxHeight && isTouchEvent) {
                 if (deltaY < 0) {
                     if (mImageView.getHeight() - deltaY / 2 >= mImageViewHeight) {
                         mImageView.getLayoutParams().height = mImageView.getHeight() - deltaY / 2 < mDrawableMaxHeight ?
@@ -156,7 +158,7 @@ public class ParallaxScollListView extends ListView implements OnScrollListener 
         @Override
         public void onTouchEvent(MotionEvent ev) {
             if (ev.getAction() == MotionEvent.ACTION_UP) {
-                if (mImageViewHeight - 1 < mImageView.getHeight()) {
+                if (mImageView != null && mImageViewHeight - 1 < mImageView.getHeight()) {
                     ResetAnimimation animation = new ResetAnimimation(
                             mImageView, mImageViewHeight);
                     animation.setDuration(300);
