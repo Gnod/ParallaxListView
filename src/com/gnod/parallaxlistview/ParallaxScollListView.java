@@ -158,7 +158,7 @@ public class ParallaxScollListView extends ListView implements OnScrollListener 
         @Override
         public void onTouchEvent(MotionEvent ev) {
             if (ev.getAction() == MotionEvent.ACTION_UP) {
-                if (mImageView != null && mImageViewHeight - 1 < mImageView.getHeight()) {
+                if (mImageView != null && mImageViewHeight < mImageView.getHeight()) {
                     ResetAnimimation animation = new ResetAnimimation(
                             mImageView, mImageViewHeight);
                     animation.setDuration(300);
